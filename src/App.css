@@ -1,38 +1,88 @@
 .App {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #f8f8f8;
+}
+.header, .footer {
+  background-color: #f8f8f8;
+  padding: 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.sidebar, .sidebar-right {
+  background-color: #f0f0f0;
+  padding: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border: 2px solid black;
+}
+.mainRecept{
+  border: 2px solid black;
+  position: relative;
+  top: -150px;
+}
+.cook{
+  border: 2px solid black;
 }
 
-.App-link {
-  color: #61dafb;
+.content-center {
+  text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.baker-image {
+  width: 150px; /* Adjust the size as needed */
+  margin-top: 20px;
+}
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  width: 50%;
+  position: absolute;
+  left: 30%;
+  bottom: 100px; /* Adjust the distance from the bottom */
+}
+
+.box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f0f0f0;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftFood {
+  grid-column: 1;
+}
+
+.centerFood {
+  grid-column: 2;
+}
+
+.rightFood {
+  grid-column: 3;
+}
+.recipe-item{
+  font-size: 25px;
 }
