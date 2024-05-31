@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './App.css';
 
 function getRandomPrice() {
@@ -25,15 +24,14 @@ const allIngredients = recipes.reduce((acc, recipe) => {
     return acc;
 }, []);
 
-
 function App() {
-
-
-
     const [leftFood, setLeftFood] = useState([]);
     const [centerFood, setCenterFood] = useState([]);
     const [rightFood, setRightFood] = useState([]);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [pickedIngredients, setPickedIngredients] = useState({ left: false, center: false, right: false });
+    const [bakerPosition, setBakerPosition] = useState('start'); // start, center, left, right, cook
+    const [cooking, setCooking] = useState(false);
 
     const handleRecipeClick = (recipe) => {
         const { ingredients, emoji } = recipe;
@@ -44,11 +42,45 @@ function App() {
         setSelectedRecipe({
             emoji,
             ingredients,
-        })
-
+        });
         setLeftFood([left]);
         setCenterFood([center]);
         setRightFood([right]);
+        setPickedIngredients({ left: false, center: false, right: false });
+        setBakerPosition('start');
+        setCooking(false);
+    };
+
+    const handlePickIngredient = (position) => {
+        if (!pickedIngredients[position]) {
+            setBakerPosition(position);
+            setTimeout(() => {
+                setPickedIngredients((prev) => ({ ...prev, [position]: true }));
+                setBakerPosition('cook');
+                setTimeout(() => {
+                    setBakerPosition('start');
+                }, 1000); // Delay to move back to start position after reaching cook
+            }, 1000); // Animation duration to pick the ingredient
+        }
+    };
+
+    const handleCook = () => {
+        if (pickedIngredients.left && pickedIngredients.center && pickedIngredients.right) {
+            setCooking(true);
+            alert('Cooking the dish!');
+            // Reset the state after cooking
+            setTimeout(() => {
+                setSelectedRecipe(null);
+                setLeftFood([]);
+                setCenterFood([]);
+                setRightFood([]);
+                setPickedIngredients({ left: false, center: false, right: false });
+                setBakerPosition('start');
+                setCooking(false);
+            }, 2000); // Simulate cooking time
+        } else {
+            alert('Please pick all ingredients first!');
+        }
     };
 
     return (
@@ -59,7 +91,7 @@ function App() {
             </header>
             <div className="container">
                 <aside className="sidebar">
-                    <h3>Meniu</h3>
+                    <h3>Menu</h3>
                     <ul className="recipe-list">
                         {recipes.map((recipe, index) => (
                             <li key={index} className="recipe-item" onClick={() => handleRecipeClick(recipe)}>
@@ -87,31 +119,41 @@ function App() {
                                 </>
                             )}
                         </div>
-                        <div className="cook">This is the main content area.</div>
+                        <div className="cook">
+                            <div className="picked-ingredients">
+                                {pickedIngredients.left && <span className="ingredient-emoji">{leftFood[0]}</span>}
+                                {pickedIngredients.center && <span className="ingredient-emoji">{centerFood[0]}</span>}
+                                {pickedIngredients.right && <span className="ingredient-emoji">{rightFood[0]}</span>}
+                            </div>
+                            {cooking ? (
+                                <p>Cooking...</p>
+                            ) : (
+                                <button onClick={handleCook}>Cook</button>
+                            )}
+                        </div>
                         <img
                             src="https://png.pngtree.com/png-vector/20230809/ourmid/pngtree-cartoon-baker-holding-a-plate-of-cookies-vector-png-image_6838409.png"
                             alt="Baker"
-                            className="baker-image"
+                            className={`baker-image ${bakerPosition}`}
                         />
                     </div>
                     <div className="bottom-grid">
-                        <div className="leftFood box">
+                        <div className="leftFood box" onClick={() => handlePickIngredient('left')}>
                             {leftFood.map((ingredient, index) => (
                                 <span key={index} className="ingredient-emoji">{ingredient}</span>
                             ))}
                         </div>
-                        <div className="centerFood box">
+                        <div className="centerFood box" onClick={() => handlePickIngredient('center')}>
                             {centerFood.map((ingredient, index) => (
                                 <span key={index} className="ingredient-emoji">{ingredient}</span>
                             ))}
                         </div>
-                        <div className="rightFood box">
+                        <div className="rightFood box" onClick={() => handlePickIngredient('right')}>
                             {rightFood.map((ingredient, index) => (
                                 <span key={index} className="ingredient-emoji">{ingredient}</span>
                             ))}
                         </div>
                     </div>
-
                 </main>
                 <div className="sidebar-right">
                     <h3>Ingredients shop</h3>

@@ -47,10 +47,6 @@
   text-align: center;
 }
 
-.baker-image {
-  width: 150px; /* Adjust the size as needed */
-  margin-top: 20px;
-}
 .bottom-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -85,4 +81,38 @@
 }
 .recipe-item{
   font-size: 25px;
+}
+.baker-image {
+  position: absolute;
+  top: -50px;
+  left: 20px;
+  transition: transform 1s ease;
+  width: 150px;
+}
+
+.baker-image.start {
+  transform: translate(45vw, 60vh);
+}
+
+.baker-image.center {
+  transform: translate(45vw, 70vh);
+}
+
+.baker-image.left {
+  transform: translate(30vw, 70vh);
+}
+
+.baker-image.right {
+  transform: translate(60vw, 70vh);
+}
+
+.baker-image.cook {
+  transform: translate(45vw, 60vh);
+}
+
+.picked-ingredients {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
